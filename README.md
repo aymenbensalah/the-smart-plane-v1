@@ -1,3 +1,3 @@
-# the-smart-plane-v1
+# The smart plane
 
-Learn Math with smart plan
+Enjoy Math with smart plane
