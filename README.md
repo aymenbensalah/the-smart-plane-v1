@@ -1,3 +1,3 @@
 # The smart plane
 
-Learn Math with smart plan
+Learn Math with smart plane
