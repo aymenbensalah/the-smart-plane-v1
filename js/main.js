@@ -1,55 +1,56 @@
-var   canvas = document.getElementById("canvas"),
-         ctx = canvas.getContext("2d") 
-,playerSp    = document.getElementById('player')
-,playerctx   = playerSp.getContext('2d')
-,ui          = document.getElementById('ui')
-,uictx       = ui.getContext('2d')
-,choises     = document.getElementById("choises")
-,choisesctx  = choises.getContext('2d')
-       ,imgs = { bg    : new Image()
-                ,grass : new Image()
-                ,plane : new Image()}  
-      ,audio = { planeAudio : new Audio('audio/avion1.ogg'),
-               succesAudio : new Audio('audio/laser1.mp3'),
-               flieldAudio : new Audio('audio/ALERT_Error.ogg')};
-          //src of imgs 
-          imgs.bg.src    = 'sprites/bg.png'; 
-          imgs.plane.src = 'sprites/plane.png';
+var canvas = document.getElementById("canvas"),
+    ctx = canvas.getContext("2d"),
+    playerSp    = document.getElementById('player'),
+    playerctx   = playerSp.getContext('2d'),
+    ui          = document.getElementById('ui'),
+    uictx       = ui.getContext('2d'),
+    choises     = document.getElementById("choises"),
+    choisesctx  = choises.getContext('2d'),
+    imgs = { 
+      bg: new Image(),
+      grass: new Image(),
+      plane : new Image()
+    },
+    audio = { 
+      planeAudio: new Audio('audio/avion1.ogg'),
+      successAudio: new Audio('audio/laser1.mp3'),
+      flieldAudio: new Audio('audio/ALERT_Error.ogg')
+    },
+    audioposx_bg   = 10,
+    posy_personnage = 200 ,
+    posx_personnage = 300,
+    var_operation   = {
+      i: 0, 
+      x: 0, 
+      y:0
+    },
+    formule,
+    operateur = ['/','*','+','-'],
+    op_indice = 0 ,
+    posx = 1,
+    detect = false,
+    personnage_width = 90,
+    personnage_heigth = 64, 
+    maincv = document.getElementById("bgmainMenu"),  
+    ctxmain   = maincv.getContext('2d'),  
+    menuImgs  = { 
+      bg: new Image(),
+      start: new Image(),
+      options: new Image(),
+      exit: new Image(),
+      volume: new Image(),
+      range: new Image(),
+      btn: new Image()
+    };
     
-  
-    var posx_bg   = 10,
-        posy_personnage = 200 ,
-        posx_personnage = 300,
-        var_operation   = {i : 0, x :0 , y:0};
+  //src of imgs 
+  imgs.bg.src    = 'sprites/bg.png'; 
+  imgs.plane.src = 'sprites/plane.png';
+  requestAnimationFrame =  function (callback, d) {
+    window.setTimeout(callback, 1000 / d);
+  };
 
-   var formule,
-       operateur = ['/','*','+','-'],
-       op_indice = 0 ,posx =1,
-       detect = false,
-       personnage_width = 90,
-       personnage_heigth = 64;
-
-
-  requestAnimationFrame =  function (callback,d) {
-             
-            window.setTimeout(callback, 1000 / d);
-        };
-
-
-var       maincv = document.getElementById("bgmainMenu")
-    ,  ctxmain   = maincv.getContext('2d')
-    ,  menuImgs  = { bg  : new Image() 
-                ,start   : new Image()
-                ,options : new Image()
-                ,exit    : new Image()
-                ,volume  : new Image()
-                ,range   : new Image()
-                ,btn     : new Image()
-              };
-
-
- 
-         //Game Over zone
+  //Game Over zone
    var   gameOvercv   = document.getElementById("gameOver"),
          ctxGameOver  = gameOvercv.getContext('2d'),
         gameOverImgs = {gameOver : new Image(),
