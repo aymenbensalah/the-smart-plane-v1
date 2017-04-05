@@ -48,11 +48,12 @@ var canvas = document.getElementById("canvas"),
       gameOver : new Image(),
       restart  : new Image()
     }, 
-    gameOvervVar = false;
+    gameOverVar = false;
     
   //src of imgs 
   imgs.bg.src    = 'sprites/bg.png'; 
   imgs.plane.src = 'sprites/plane.png';
+
   requestAnimationFrame =  function (callback, d) {
     window.setTimeout(callback, 1000 / d);
   };
@@ -73,7 +74,7 @@ var canvas = document.getElementById("canvas"),
 
       requestAnimationFrame(imgs.bg.onload, 200); 
       
-      if(gameOvervVar==false)
+      if(gameOverVar==false)
       {
         posx_bg = (posx_bg-1) % 250;
       } else {
@@ -92,7 +93,7 @@ drawper = function ()
    { 
       var  animation = function (){
 
-          if(gameOvervVar == false)
+          if(gameOverVar == false)
 
            audio.planeAudio.play();
           else 
@@ -110,7 +111,7 @@ drawper = function ()
         
  document.onkeydown = function(evt)
   {  
-        console.log(evt.keyCode && gameOvervVar == false );
+        console.log(evt.keyCode && gameOverVar == false );
         if(evt.keyCode == 40){
             if(posy_personnage <imgs.bg.height-200 )
                posy_personnage = posy_personnage +4;
@@ -119,7 +120,7 @@ drawper = function ()
             if(posy_personnage > 40 )
          posy_personnage = posy_personnage - 4;
         }
-       if(gameOvervVar == true){
+       if(gameOverVar == true){
            playerctx.clearRect(0,0,1160,600);
            posy_personnage =100;
             }
@@ -278,7 +279,7 @@ choises = function(){
              Score = 0;
         }   
     }
-      if(gameOvervVar == false)
+      if(gameOverVar == false)
           posx_choises = posx_choises - 1;
        else 
         posx_choises = 0;
@@ -311,7 +312,7 @@ requestAnimationFrame(draw_choises,200);
           yRestart  = 380;
 
   gameOver = function(){
-            gameOvervVar = true ;
+            gameOverVar = true ;
             console.log("from gameOver")
             gameOvercv.style.zIndex = "7" ;
  gameOverImgs.gameOver.onload = function(){
@@ -338,7 +339,7 @@ requestAnimationFrame(draw_choises,200);
               ymouse > yRestart){
                     console.log('hellow from restart');
                     ctxGameOver.clearRect(0,0,1150,600);
-                    gameOvervVar = false; 
+                    gameOverVar = false; 
                     posx_bg      = 0 ;
                     posx_choises = -100 ;
                     posy_personnage = 200;
