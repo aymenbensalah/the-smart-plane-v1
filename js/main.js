@@ -41,7 +41,14 @@ var canvas = document.getElementById("canvas"),
       volume: new Image(),
       range: new Image(),
       btn: new Image()
-    };
+    },
+    gameOvercv   = document.getElementById("gameOver"),
+    ctxGameOver  = gameOvercv.getContext('2d'),
+    gameOverImgs = {
+      gameOver : new Image(),
+      restart  : new Image()
+    }, 
+    gameOvervVar = false;
     
   //src of imgs 
   imgs.bg.src    = 'sprites/bg.png'; 
@@ -51,30 +58,31 @@ var canvas = document.getElementById("canvas"),
   };
 
   //Game Over zone
-   var   gameOvercv   = document.getElementById("gameOver"),
-         ctxGameOver  = gameOvercv.getContext('2d'),
-        gameOverImgs = {gameOver : new Image(),
-                        restart  : new Image()};
-      gameOverImgs.gameOver.src = 'sprites/GAME OVER.PNG';
-      gameOverImgs.restart.src  = 'sprites/RESTRAT.PNG' , 
-      gameOvervVar = false;
+  gameOverImgs.gameOver.src = 'sprites/GAME OVER.PNG';
+  gameOverImgs.restart.src  = 'sprites/RESTRAT.PNG' 
             
+  draw_bg = function () {  
+    imgs.bg.onload = function () { 
+      ctx.drawImage(imgs.bg, posx_bg, 0, 1156, 600);
+      ctx.drawImage(
+        imgs.bg, 
+        posx_bg + imgs.bg.width-2,
+        0,
+        1100,
+        600);     
 
-
- draw_bg = function (){  
-     
-     imgs.bg.onload = function (){ 
-   
-  ctx.drawImage(imgs.bg,posx_bg,0,1156,600);
-  ctx.drawImage(imgs.bg,posx_bg+imgs.bg.width-2,0,1100,600);      //
-  requestAnimationFrame(imgs.bg.onload,200); 
-         if(gameOvervVar==false)
-    posx_bg = (posx_bg-1)%250;
-     else
-         posx_bg =0;
-} 
-     requestAnimationFrame(imgs.bg.onload,200);  
-}//end of draw_bg function
+      requestAnimationFrame(imgs.bg.onload, 200); 
+      
+      if(gameOvervVar==false)
+      {
+        posx_bg = (posx_bg-1) % 250;
+      } else {
+        posx_bg =0;
+      }
+    }; 
+    
+    requestAnimationFrame(imgs.bg.onload,200);  
+  };
 
 
 
