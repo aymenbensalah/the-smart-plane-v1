@@ -238,7 +238,11 @@ var canvas = document.getElementById("canvas"),
       }
 
       posy_choises = 100;
-      choisesctx.clearRect(posx_choises-50,posy_choises-50,900,900);
+      choisesctx.clearRect(
+        posx_choises - 50,
+        posy_choises - 50,
+        900,
+        900);
        
       for (i = 0; i < tab_choises.length; i++)
       { 
@@ -307,7 +311,7 @@ var canvas = document.getElementById("canvas"),
         j = (j+1) % 2; 
       } 
 
-      requestAnimationFrame(draw_choises,200);
+      requestAnimationFrame(draw_choises, 200);
     };  
   
     draw_choises();   
