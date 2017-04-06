@@ -132,7 +132,11 @@ var canvas = document.getElementById("canvas"),
     posx_choises = 1000,
     iReturn = true,
     Score  = 0,
-    j = 0;
+    j = 0, 
+    xGameOver = 420,
+    yGameOver = 100,
+    xRestart  = 500,
+    yRestart  = 380;
     
   //src of imgs 
   imgs.bg.src = 'sprites/bg.png'; 
@@ -322,82 +326,81 @@ var canvas = document.getElementById("canvas"),
     choises();
     draw_bg(); 
     drawPlane();
-  }
+  };
 
-      var xGameOver = 420,
-          yGameOver = 100,
-          xRestart  = 500,
-          yRestart  = 380;
+  gameOver = function() {
+    gameOverVar = true ;
+    console.log("from gameOver");
+    gameOvercv.style.zIndex = "7" ;
+    gameOverImgs.gameOver.onload = function() {
+      ctxGameOver.drawImage(
+        gameOverImgs.gameOver,
+        xGameOver,
+        yGameOver,
+        400,
+        160);
+    };
 
-  gameOver = function(){
-            gameOverVar = true ;
-            console.log("from gameOver")
-            gameOvercv.style.zIndex = "7" ;
- gameOverImgs.gameOver.onload = function(){
+    gameOverImgs.restart.onload = function() {
+      ctxGameOver.drawImage(
+        gameOverImgs.restart,
+        xRestart,
+        yRestart,
+        200,
+        80);
+    };
      
-     ctxGameOver.drawImage(gameOverImgs.gameOver,xGameOver,yGameOver,400,160);
-     
-       
-   }
-
-      gameOverImgs.restart.onload = function(){
-     
-     ctxGameOver.drawImage(gameOverImgs.restart,xRestart,yRestart,200,80);
-  }
-     
-   gameOvercv.addEventListener('click',function(){
-
-       onmousedown = function(evt){
-   
-    var    xmouse = evt.pageX,
-           ymouse = evt.pageY;
-           if(xmouse < xRestart+200 && 
-              xmouse > xRestart&&
-              ymouse < yRestart+80&&
-              ymouse > yRestart){
-                    console.log('hellow from restart');
-                    ctxGameOver.clearRect(0,0,1150,600);
-                    gameOverVar = false; 
-                    posx_bg      = 0 ;
-                    posx_choises = -100 ;
-                    posy_personnage = 200;
-               ctx.clearRect(0,0,1160,600);
-               playerctx.clearRect(0,0,1160,600);
-               mainDraw();
-               
-              gameOvercv.style.zIndex = "7" ;
-           }    
-       }
-       
-       
-   },false);
+    gameOvercv.addEventListener('click', function() {
+      onmousedown = function(evt) {
+        var xmouse = evt.pageX,
+            ymouse = evt.pageY;
+        if(
+            xmouse < xRestart + 200 && 
+            xmouse > xRestart       &&
+            ymouse < yRestart + 80  &&
+            ymouse > yRestart
+          )
+        {
+          console.log('hellow from restart');
+          ctxGameOver.clearRect(0, 0, 1150, 600);
+          gameOverVar = false; 
+          posx_bg = 0;
+          posx_choises = -100 ;
+          posy_personnage = 200;
+          ctx.clearRect(0, 0, 1160, 600);
+          playerctx.clearRect(0, 0, 1160, 600);
+          mainDraw();
+                 
+          gameOvercv.style.zIndex = "7";
+        }    
+      }
+    }, false);
          
-
-  
-  // pause();
-   requestAnimationFrame(gameOverImgs.gameOver.onload);
-   requestAnimationFrame(gameOverImgs.restart.onload);
-
-  
-}// End of gameOver function 
+    // pause();
+    requestAnimationFrame(gameOverImgs.gameOver.onload);
+    requestAnimationFrame(gameOverImgs.restart.onload);
+  };
  
 
-      //Src of imgs menu 
-    menuImgs.bg.src      = 'sprites/menubg.png';
-    menuImgs.start.src   = 'sprites/START.png' ;
-    menuImgs.options.src = 'sprites/OPTIONS.png'; 
-    menuImgs.exit.src    = 'sprites/EXIT.png';
-    menuImgs.volume.src  = 'sprites/volume.png';
-    menuImgs.range.src   = 'sprites/range.png';
-    menuImgs.btn.src     = 'sprites/btn.png' ;
+  // Src of imgs menu 
+  menuImgs.bg.src      = 'sprites/menubg.png';
+  menuImgs.start.src   = 'sprites/START.png' ;
+  menuImgs.options.src = 'sprites/OPTIONS.png'; 
+  menuImgs.exit.src    = 'sprites/EXIT.png';
+  menuImgs.volume.src  = 'sprites/volume.png';
+  menuImgs.range.src   = 'sprites/range.png';
+  menuImgs.btn.src     = 'sprites/btn.png' ;
   
-  drawBg = function(){
-      
-            menuImgs.bg.onload = function(){
-            ctxmain.drawImage(menuImgs.bg,0,0,1200,600);
-          
-        }
-      }// end of draw bg 
+  drawBg = function() {
+    menuImgs.bg.onload = function() {
+      ctxmain.drawImage(
+        menuImgs.bg,
+        0,
+        0,
+        1200,
+        600);
+    };
+  };
       
       
       var optionscv = document.getElementById("optionsMenu")
