@@ -1,25 +1,25 @@
 var canvas = document.getElementById("canvas"),
     ctx = canvas.getContext("2d"),
-    playerSp    = document.getElementById('player'),
-    playerctx   = playerSp.getContext('2d'),
-    ui          = document.getElementById('ui'),
-    uictx       = ui.getContext('2d'),
-    choises     = document.getElementById("choises"),
-    choisesctx  = choises.getContext('2d'),
+    playerSp = document.getElementById('player'),
+    playerctx = playerSp.getContext('2d'),
+    ui = document.getElementById('ui'),
+    uictx = ui.getContext('2d'),
+    choises = document.getElementById("choises"),
+    choisesctx = choises.getContext('2d'),
     imgs = { 
       bg: new Image(),
       grass: new Image(),
-      plane : new Image()
+      plane: new Image()
     },
     audio = { 
       planeAudio: new Audio('audio/avion1.ogg'),
       successAudio: new Audio('audio/laser1.mp3'),
       flieldAudio: new Audio('audio/ALERT_Error.ogg')
     },
-    audioposx_bg   = 10,
+    audioposx_bg = 10,
     posy_personnage = 200 ,
     posx_personnage = 300,
-    var_operation   = {
+    var_operation = {
       i: 0, 
       x: 0, 
       y:0
@@ -32,8 +32,8 @@ var canvas = document.getElementById("canvas"),
     personnage_width = 90,
     personnage_heigth = 64, 
     maincv = document.getElementById("bgmainMenu"),  
-    ctxmain   = maincv.getContext('2d'),  
-    menuImgs  = { 
+    ctxmain = maincv.getContext('2d'),  
+    menuImgs = { 
       bg: new Image(),
       start: new Image(),
       options: new Image(),
@@ -42,94 +42,94 @@ var canvas = document.getElementById("canvas"),
       range: new Image(),
       btn: new Image()
     },
-    gameOvercv   = document.getElementById("gameOver"),
-    ctxGameOver  = gameOvercv.getContext('2d'),
+    gameOvercv = document.getElementById("gameOver"),
+    ctxGameOver = gameOvercv.getContext('2d'),
     gameOverImgs = {
-      gameOver : new Image(),
-      restart  : new Image()
+      gameOver: new Image(),
+      restart: new Image()
     }, 
-    gameOverVar = false;
+    gameOverVar = false, 
+    requestAnimationFrame = function (callback, d) {
+      window.setTimeout(callback, 1000 / d);
+    }, 
+    draw_bg = function () {  
+      imgs.bg.onload = function () { 
+        ctx.drawImage(imgs.bg, posx_bg, 0, 1156, 600);
+        ctx.drawImage(
+          imgs.bg, 
+          posx_bg + imgs.bg.width-2,
+          0,
+          1100,
+          600);     
+
+        requestAnimationFrame(imgs.bg.onload, 200); 
+        
+        if(!gameOverVar)
+        {
+          posx_bg = (posx_bg-1) % 250;
+        } else {
+          posx_bg =0;
+        }
+      }; 
+      
+      requestAnimationFrame(imgs.bg.onload,200);  
+    }, 
+    drawper = function() { 
+      var animation = function() {
+        if(!gameOverVar)
+        {
+          audio.planeAudio.play();
+        } else { 
+          audio.planeAudio.pause();
+        }
+
+        playerctx.clearRect(
+          posx_personnage-5,
+          posy_personnage-5,
+          800,
+          800);
+
+        playerctx.drawImage(
+          imgs.plane,
+          posx_personnage,
+          posy_personnage);
+
+        requestAnimationFrame(animation);  
+      }; 
+     
+      requestAnimationFrame(animation);
+      
+      document.onkeydown = function(evt) {  
+        console.log(evt.keyCode && gameOverVar == false );
+        
+        if(evt.keyCode == 40)
+        {
+          if(posy_personnage <imgs.bg.height-200 )
+            posy_personnage = posy_personnage + 4;
+        }
+
+        if(evt.keyCode == 38)
+        {
+          if(posy_personnage > 40 )
+            posy_personnage = posy_personnage - 4;
+        }
+
+        if(gameOverVar)
+        {
+           playerctx.clearRect(0,0,1160,600);
+           posy_personnage =100;
+        }
+      };
+    };
     
   //src of imgs 
-  imgs.bg.src    = 'sprites/bg.png'; 
+  imgs.bg.src = 'sprites/bg.png'; 
   imgs.plane.src = 'sprites/plane.png';
-
-  requestAnimationFrame =  function (callback, d) {
-    window.setTimeout(callback, 1000 / d);
-  };
 
   //Game Over zone
   gameOverImgs.gameOver.src = 'sprites/GAME OVER.PNG';
   gameOverImgs.restart.src  = 'sprites/RESTRAT.PNG' 
-            
-  draw_bg = function () {  
-    imgs.bg.onload = function () { 
-      ctx.drawImage(imgs.bg, posx_bg, 0, 1156, 600);
-      ctx.drawImage(
-        imgs.bg, 
-        posx_bg + imgs.bg.width-2,
-        0,
-        1100,
-        600);     
 
-      requestAnimationFrame(imgs.bg.onload, 200); 
-      
-      if(gameOverVar==false)
-      {
-        posx_bg = (posx_bg-1) % 250;
-      } else {
-        posx_bg =0;
-      }
-    }; 
-    
-    requestAnimationFrame(imgs.bg.onload,200);  
-  };
-
-
-
-
-
-drawper = function () 
-   { 
-      var  animation = function (){
-
-          if(gameOverVar == false)
-
-           audio.planeAudio.play();
-          else 
-          audio.planeAudio.pause();
-       
-        playerctx.clearRect(posx_personnage-5,posy_personnage-5,800,800);
-        playerctx.drawImage(imgs.plane,posx_personnage,posy_personnage);
-        console.log('hh');
-        requestAnimationFrame(animation);  
-} 
- 
-     requestAnimationFrame(animation);
-  
-    
-        
- document.onkeydown = function(evt)
-  {  
-        console.log(evt.keyCode && gameOverVar == false );
-        if(evt.keyCode == 40){
-            if(posy_personnage <imgs.bg.height-200 )
-               posy_personnage = posy_personnage +4;
-         }
-        if(evt.keyCode == 38){
-            if(posy_personnage > 40 )
-         posy_personnage = posy_personnage - 4;
-        }
-       if(gameOverVar == true){
-           playerctx.clearRect(0,0,1160,600);
-           posy_personnage =100;
-            }
-  }//close on key down
-  
-
- 
-}//end of dawper function 
-   
       var harderi =0, harderj=1;
     c_operation = function(Score){ 
       
