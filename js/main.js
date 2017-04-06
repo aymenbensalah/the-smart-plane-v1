@@ -74,7 +74,7 @@ var canvas = document.getElementById("canvas"),
       
       requestAnimationFrame(imgs.bg.onload,200);  
     }, 
-    drawper = function() { 
+    drawPlane = function() { 
       var animation = function() {
         if(!gameOverVar)
         {
@@ -302,7 +302,7 @@ requestAnimationFrame(draw_choises,200);
    drawScore();
    choises();
    draw_bg(); 
-   drawper();
+   drawPlane();
  
 }
 
