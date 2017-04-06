@@ -317,15 +317,12 @@ var canvas = document.getElementById("canvas"),
     draw_choises();   
   };
 
- mainDraw = function (){
- 
-
-   drawScore();
-   choises();
-   draw_bg(); 
-   drawPlane();
- 
-}
+  mainDraw = function() {
+    drawScore();
+    choises();
+    draw_bg(); 
+    drawPlane();
+  }
 
       var xGameOver = 420,
           yGameOver = 100,
