@@ -120,7 +120,19 @@ var canvas = document.getElementById("canvas"),
            posy_personnage =100;
         }
       };
-    };
+    }, 
+    harderi = 0, 
+    harderj = 1, 
+    tab_choises = ["","",""],
+    true_choise,
+    false_choise,
+    indice_true,
+    i = 0,
+    posy_choises = 100,
+    posx_choises = 1000,
+    iReturn = true,
+    Score  = 0,
+    j = 0;
     
   //src of imgs 
   imgs.bg.src = 'sprites/bg.png'; 
@@ -130,171 +142,176 @@ var canvas = document.getElementById("canvas"),
   gameOverImgs.gameOver.src = 'sprites/GAME OVER.PNG';
   gameOverImgs.restart.src  = 'sprites/RESTRAT.PNG' 
 
-      var harderi =0, harderj=1;
-    c_operation = function(Score){ 
+  c_operation = function(Score) { 
+    if(Score > harderj + 27 && j < 8)
+    {
+      harderi ++;
+      harderj ++;
+    } else {
+      j = 0 ; 
+      i = 0 ;
+    }
+
+    var_operation.x = Math.round(Math.random()+harderi)*10;
+    var_operation.y = Math.round(Math.random()+harderj)*10; 
+
+    var Operation = function() {
+      var random = Math.random();
+
+      if(random == 0)
+      {
+        op_indice = 0 ;
+      } else {
+        op_indice = Math.round(random + 1);  
+      }
       
-        if( Score > harderj+27 && j<8)
-            {
-                harderi++;
-                harderj++;
-            }else 
-                {
-                    j = 0 ; 
-                    i = 0 ;
-                }
-             var_operation.x = Math.round(Math.random()+harderi)*10;
-             var_operation.y = Math.round(Math.random()+harderj)*10; 
-
-   Operation = function(){
-    
-       var random = Math.random();
-           if(random == 0){
-                   
-               op_indice = 0 ;
-              
-           }else{
-                 op_indice = Math.round(random+1);  
-               }
-    
-     console.log(op_indice+' c indice ');
-     //var_operation.x = Math.round(Math.random())*10;
-    // var_operation.y = Math.round(Math.random())*10;
-        
-formule = var_operation.x.toString()+operateur[op_indice]+var_operation.y.toString(); 
-       
-        uictx.save();  
-        uictx.fillStyle = "white";
-        uictx.strokeStyle = "blue";    
-        uictx.fillRect(400,500,300,100);  
-        uictx.fillStyle = "red";
-        uictx.font = "64px Showcard Gothic";  
-        uictx.fillText(formule,450,570); 
-
-   
-        console.log("le formule "+formule);
-        //posx++;
+      console.log(op_indice+' c indice ');
+      //var_operation.x = Math.round(Math.random())*10;
+      // var_operation.y = Math.round(Math.random())*10;
           
-     return formule;
-          //requestAnimationFrame(Operation,60);
-   }
- 
- return  Operation();
- 
-    
-    }// end of formule function
+      formule = var_operation.x.toString()
+              + operateur[op_indice]
+              + var_operation.y.toString(); 
+         
+      uictx.save();  
+      uictx.fillStyle = "white";
+      uictx.strokeStyle = "blue";    
+      uictx.fillRect(400,500,300,100);  
+      uictx.fillStyle = "red";
+      uictx.font = "64px Showcard Gothic";  
+      uictx.fillText(formule,450,570); 
+     
+      console.log("le formule "+formule);
+      //posx++;
+            
+      return formule;
+      //requestAnimationFrame(Operation,60);
+    }
    
-    //score function    
-        var tab_choises = ["","",""],
-        true_choise,
-        false_choise,
-        indice_true,
-         i =0,
-        posy_choises = 100,
-        posx_choises = 1000
-        ,iReturn = true,
-          Score  = 0,j = 0;
-        
-  drawScore = function(score){
-    if(score == undefined)
-        score = 0 ;           
+    return  Operation();
+  };
+   
+  //score function    
+  drawScore = function(score) {
+    if(score == undefined) score = 0 ;           
+
     uictx.clearRect(890,540,400,450);
     uictx.fillStyle = "white";    
     uictx.font      = "40px Showcard Gothic " ;
     uictx.fillText('Score : '+score,900,590);   
   
-    }//end of draw score 
+  };
   
-choises = function(){
-    
- draw_choises = function(){  
-     var x_bgChoise,
-        y_bgChoise,
-         widthBgChoise = 80,
-         heightBgChoise = 80
-        ,random;
+  //@todo: why encapsulate the 'draw_choises' into 'choises'?
+  //any need for reuse?
+  choises = function() {
+    var draw_choises = function() {  
+      var x_bgChoise,
+          y_bgChoise,
+          widthBgChoise = 80,
+          heightBgChoise = 80,
+          random;
 
-  if(iReturn == true) {
-     
-      c_operation(Score);
-      true_choise     = eval(c_operation(Score));  
-      false_choise1   = Math.round(Math.random()+2)*12;
-      false_choise2   = Math.round(Math.random()+6)*12;
-      false_choise3   = Math.round(Math.random()+10)*10;
-      falseChoisesTab = [false_choise1,false_choise2,false_choise3];
-      random = Math.random();
-     
-      if(random == 0){
-        indice_true  = Math.round(random);
-          }else{
-           indice_true = Math.round(random+j)
-          }
-             
-      iReturn = false;
-    
-    //  console.log(indice_true);
-      tab_choises[indice_true] = true_choise.toString(); 
+      if(iReturn) 
+      {
+        c_operation(Score);
+        true_choise     = eval(c_operation(Score));  
+        false_choise1   = Math.round(Math.random()+2)*12;
+        false_choise2   = Math.round(Math.random()+6)*12;
+        false_choise3   = Math.round(Math.random()+10)*10;
+        falseChoisesTab = [false_choise1,false_choise2,false_choise3];
+        random = Math.random();
+       
+        if(random == 0)
+        {
+          indice_true  = Math.round(random);
+        } else {
+          indice_true = Math.round(random+j)
+        }
+               
+        iReturn = false;
       
-      //console.log('form loop choises');
-     
-  }
-    posy_choises = 100;
-    choisesctx.clearRect(posx_choises-50,posy_choises-50,900,900);
+        //  console.log(indice_true);
+        tab_choises[indice_true] = true_choise.toString(); 
+        
+        //console.log('form loop choises');
+      }
+
+      posy_choises = 100;
+      choisesctx.clearRect(posx_choises-50,posy_choises-50,900,900);
        
-     for (i=0 ;i <tab_choises.length; i++){ 
-       
-         if(i != indice_true)
-           tab_choises[i] = falseChoisesTab[i];
-           choisesctx.fillStyle   = "yellow";
-           choisesctx.strokeStyle = "blue";
-         x_bgChoise = posx_choises - 10 ;
-         y_bgChoise = posy_choises - 40;
-          choisesctx.fillRect(x_bgChoise,y_bgChoise,widthBgChoise,heightBgChoise);
+      for (i = 0; i < tab_choises.length; i++)
+      { 
+        if(i != indice_true)
+          tab_choises[i] = falseChoisesTab[i];
+
+          choisesctx.fillStyle   = "yellow";
+          choisesctx.strokeStyle = "blue";
+          x_bgChoise = posx_choises - 10 ;
+          y_bgChoise = posy_choises - 40;
+
+          choisesctx.fillRect(
+            x_bgChoise,
+            y_bgChoise,
+            widthBgChoise,
+            heightBgChoise);
+
           choisesctx.fillStyle = "blue" ;
           choisesctx.font = "50px Showcard Gothic";
-          choisesctx.fillText(tab_choises[i],posx_choises,posy_choises); 
+          choisesctx.fillText(
+            tab_choises[i],
+            posx_choises,
+            posy_choises); 
+
           posy_choises += 170;
          
-     //detect  collusion 
-         
-   if(posx_personnage < x_bgChoise + widthBgChoise && 
-      posx_personnage + personnage_width  > x_bgChoise &&
-      posy_personnage < y_bgChoise+heightBgChoise &&
-      posy_personnage + personnage_heigth > y_bgChoise && tab_choises[i]==true_choise)
-   { 
-        tab_choises.splice(i,1);
-        audio.succesAudio.play();
-        Score = Score + 10;
-        drawScore(Score)
-        posx_choises = posx_choises - 200;
-    }else if(posx_personnage < x_bgChoise + widthBgChoise && 
-      posx_personnage+personnage_width  > x_bgChoise &&
-      posy_personnage < y_bgChoise+heightBgChoise &&
-      posy_personnage + personnage_heigth > y_bgChoise && tab_choises[i]!=true_choise) 
-        { audio.flieldAudio.play();
-              //Score = Score -10;
-              drawScore(Score) ;
-              choisesctx.clearRect(posx_choises-50,posy_choises-50,900,900);
+         //detect  collusion 
+             
+        if(posx_personnage < x_bgChoise + widthBgChoise && 
+            posx_personnage + personnage_width  > x_bgChoise &&
+            posy_personnage < y_bgChoise+heightBgChoise &&
+            posy_personnage + personnage_heigth > y_bgChoise && tab_choises[i]==true_choise)
+        { 
+              tab_choises.splice(i,1);
+              audio.succesAudio.play();
+              Score = Score + 10;
+              drawScore(Score)
               posx_choises = posx_choises - 200;
-              gameOver();
-             Score = 0;
+        } else if(posx_personnage < x_bgChoise + widthBgChoise && 
+            posx_personnage+personnage_width  > x_bgChoise &&
+            posy_personnage < y_bgChoise+heightBgChoise &&
+            posy_personnage + personnage_heigth > y_bgChoise && tab_choises[i]!=true_choise) { 
+          audio.flieldAudio.play();
+          //Score = Score -10;
+          drawScore(Score) ;
+          choisesctx.clearRect(posx_choises-50,posy_choises-50,900,900);
+          posx_choises = posx_choises - 200;
+          gameOver();
+          Score = 0;
         }   
-    }
-      if(gameOverVar == false)
-          posx_choises = posx_choises - 1;
-       else 
+      }
+
+      if(!gameOverVar)
+      { 
+        posx_choises = posx_choises - 1;
+      } else { 
         posx_choises = 0;
-    //Ruturn on the first position 
-    if(posx_choises <-100){
+      }  
+
+      //Ruturn on the first position 
+      if(posx_choises < -100)
+      {
         posx_choises = 1200;
         console.log('i return');
         iReturn = true ;
-    j = (j+1)%2; } 
+        j = (j+1) % 2; 
+      } 
 
-requestAnimationFrame(draw_choises,200);
-
-}  
-  draw_choises();   
-}// end of choises function
+      requestAnimationFrame(draw_choises,200);
+    };  
+  
+    draw_choises();   
+  };
 
  mainDraw = function (){
  
