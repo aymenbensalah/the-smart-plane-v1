@@ -136,7 +136,9 @@ var canvas = document.getElementById("canvas"),
     xGameOver = 420,
     yGameOver = 100,
     xRestart  = 500,
-    yRestart  = 380;
+    yRestart  = 380, 
+    optionscv = document.getElementById("optionsMenu"),
+    ctxoption = optionscv.getContext('2d');
     
   //src of imgs 
   imgs.bg.src = 'sprites/bg.png'; 
@@ -402,19 +404,12 @@ var canvas = document.getElementById("canvas"),
     };
   };
       
-      
-      var optionscv = document.getElementById("optionsMenu")
-         ,ctxoption = optionscv.getContext('2d');
-    
- drawOptions = function(){
-            
-         menuImgs.start.onload = function(){
-        
-             ctxoption.drawImage(menuImgs.start,450,100,250,80);
-             
-         }//end of start btn loaD 
+  drawOptions = function() {
+    menuImgs.start.onload = function() {
+      ctxoption.drawImage(menuImgs.start,450,100,250,80);
+    };
           
-         menuImgs.options.onload = function(){
+    menuImgs.options.onload = function(){
          
              ctxoption.drawImage(menuImgs.options,450,200,250,80);
              
