@@ -1,4 +1,5 @@
-var canvas = document.getElementById("canvas"),
+(function() {
+  var canvas = document.getElementById("canvas"),
     ctx = canvas.getContext("2d"),
     playerSp = document.getElementById('player'),
     playerctx = playerSp.getContext('2d'),
@@ -528,4 +529,5 @@ var canvas = document.getElementById("canvas"),
     volumeInit();
   };
 
-document.addEventListener('load', mainMenu());
+  mainMenu()
+})();
