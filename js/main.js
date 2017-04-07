@@ -138,7 +138,13 @@ var canvas = document.getElementById("canvas"),
     xRestart  = 500,
     yRestart  = 380, 
     optionscv = document.getElementById("optionsMenu"),
-    ctxoption = optionscv.getContext('2d');
+    ctxoption = optionscv.getContext('2d'), 
+    xVolume = 400,
+    yVolume = 50,
+    xRange  = 375,
+    yRange  = 200,
+    xBtn    = 400 ,
+    yBtn    = 215;
     
   //src of imgs 
   imgs.bg.src = 'sprites/bg.png'; 
@@ -205,7 +211,6 @@ var canvas = document.getElementById("canvas"),
     uictx.fillStyle = "white";    
     uictx.font      = "40px Showcard Gothic " ;
     uictx.fillText('Score : '+score,900,590);   
-  
   };
   
   //@todo: why encapsulate the 'draw_choises' into 'choises'?
@@ -409,120 +414,118 @@ var canvas = document.getElementById("canvas"),
       ctxoption.drawImage(menuImgs.start,450,100,250,80);
     };
           
-    menuImgs.options.onload = function(){
-         
-             ctxoption.drawImage(menuImgs.options,450,200,250,80);
-             
-          }//end of options btn load 
+    menuImgs.options.onload = function() {
+      ctxoption.drawImage(
+        menuImgs.options,
+        450,
+        200,
+        250,
+        80);
+    };
            
-          menuImgs.exit.onload = function(){
-         
-             ctxoption.drawImage(menuImgs.exit,450,300,250,80);
-             
-          }
-          
-        
-         
-    }//end of draw
-   
-     
-   
-            
-  //volume functions  
- var xVolume = 400,
-     yVolume = 50,
-     xRange  = 375,
-     yRange  = 200,
-     xBtn    = 400 ,
-     yBtn    = 215;
+    menuImgs.exit.onload = function(){
+      ctxoption.drawImage(
+        menuImgs.exit,
+        450,
+        300,
+        250,
+        80);
+    };
+  };
   
-   volumeInit = function(){
-           menuImgs.range.onload  = function(){} ;
-           menuImgs.volume.onload = function(){} ;
-           menuImgs.btn.onload    = function(){} ;
-}
- volumeDraw = function(){
-
-        
-        ctxoption.drawImage(menuImgs.range,xRange,yRange,530,80);
- 
-        ctxoption.drawImage(menuImgs.volume,xVolume,yVolume,500,80);
-        
-        ctxoption.drawImage(menuImgs.btn,xBtn,yBtn,10,50);
- }
-
-
-
-
-   
-   controls = function(){
-        
-      optionscv.addEventListener('click', function(){
-          var xstartbn   = 450
-              ,ystartbn  = 100
-              ,startbnheight = 80
-              ,startbnwidth  = 250;
-         var  xexit  = 450,
-              yexit  = 300,
+  volumeInit = function() {
+    menuImgs.range.onload  = function() {};
+    menuImgs.volume.onload = function() {};
+    menuImgs.btn.onload    = function(){};
+  };
+  
+  volumeDraw = function() {
+    ctxoption.drawImage(
+      menuImgs.range,
+      xRange,
+      yRange,
+      530,
+      80);
+    ctxoption.drawImage(
+      menuImgs.volume,
+      xVolume,
+      yVolume,
+      500,
+      80);
+    ctxoption.drawImage(
+      menuImgs.btn,
+      xBtn,
+      yBtn,
+      10,
+      50);
+  };
+  
+  controls = function() {
+    optionscv.addEventListener('click', function() {
+      var xstartbn   = 450,
+          ystartbn  = 100,
+          startbnheight = 80,
+          startbnwidth  = 250,
+          xexit  = 450,
+          yexit  = 300,
           exitHeight = 80,
           exitWidth  = 250,
           xOptions   = 450,
           yOptions   = 200,
-       optionsHeight = 80,
-       optionsWidth  = 250;
+          optionsHeight = 80,
+          optionsWidth  = 250;
         
-  onmousedown = function(evt){
-         var xmouse = evt.pageX,
-             ymouse = evt.pageY;
-       
-              //on detect the position of mouse if there are on start btn
-                   
- if( xmouse < xstartbn+startbnwidth  &&
-    xmouse  > xstartbn               &&
-    ymouse  < ystartbn+startbnheight &&
-    ymouse  > ystartbn ){
-      
-    ctxoption.clearRect(0,0,optionscv.width,optionscv.height);
-    ctxmain.clearRect(0,0,maincv.width,maincv.height);
-    console.log('form controls');
-    optionscv.style.zIndex =  "6";
-    mainDraw();
-      
-      
-            }
+      onmousedown = function(evt) {
+        var xmouse = evt.pageX,
+            ymouse = evt.pageY;
+        
+        //detect the position of the mouse if there's a start btn
+        if( 
+            xmouse < xstartbn+startbnwidth  &&
+            xmouse > xstartbn               &&
+            ymouse < ystartbn+startbnheight &&
+            ymouse > ystartbn 
+          )
+        {
+          ctxoption.clearRect(0,0,optionscv.width,optionscv.height);
+          ctxmain.clearRect(0,0,maincv.width,maincv.height);
+          console.log('form controls');
+          optionscv.style.zIndex =  "6";
+          mainDraw();
+        }
    
-      //On detect la position de options btn
-   if( xmouse < xOptions + optionsWidth  &&
-       xmouse > xOptions                 &&
-       ymouse < yOptions + optionsHeight &&
-       ymouse > yOptions ){   
-    
-       ctxoption.clearRect(0,0,1150,600);
-       console.log("from options btn ");
-            volumeDraw();
-   }
+        //detect the position of options button
+        if( 
+            xmouse < xOptions + optionsWidth  &&
+            xmouse > xOptions                 &&
+            ymouse < yOptions + optionsHeight &&
+            ymouse > yOptions 
+          )
+        {   
+          ctxoption.clearRect(0,0,1150,600);
+          console.log("from options btn ");
+          volumeDraw();
+        }
       
-       //on detect the position of mouse if there are exit btn
- if( xmouse < xexit+exitWidth  &&
-     xmouse > xexit            &&
-     ymouse < yexit+exitHeight &&
-     ymouse > yexit ){
+       //detect the position of mouse if there's an exit btn
+        if( 
+            xmouse < xexit + exitWidth  &&
+            xmouse > xexit              &&
+            ymouse < yexit + exitHeight &&
+            ymouse > yexit 
+          )
+        {
+          window.close();   
+        }
+      };
+    }, false);
+  };
     
-     window.close();   
-    
-     }
-  }
-          
- },false);
+  mainMenu = function() {
+    controls();
+    drawBg();
+    drawOptions(); 
+    volumeInit();
+  };
 
-}//end of controls function 
-
-mainMenu = function() {
-  
-  controls();
-  drawBg();
-  drawOptions(); 
- volumeInit();
-}
-
-document.addEventListener('load',mainMenu());
+document.addEventListener('load', mainMenu());
