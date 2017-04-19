@@ -1,151 +1,151 @@
 (function() {
   var canvas = document.getElementById("canvas"),
-    ctx = canvas.getContext("2d"),
-    playerSp = document.getElementById('player'),
-    playerctx = playerSp.getContext('2d'),
-    ui = document.getElementById('ui'),
-    uictx = ui.getContext('2d'),
-    choises = document.getElementById("choises"),
-    choisesctx = choises.getContext('2d'),
-    imgs = { 
-      bg: new Image(),
-      grass: new Image(),
-      plane: new Image()
-    },
-    audio = { 
-      planeAudio: new Audio('audio/avion1.ogg'),
-      successAudio: new Audio('audio/laser1.mp3'),
-      flieldAudio: new Audio('audio/ALERT_Error.ogg')
-    },
-    audioposx_bg = 10,
-    posy_personnage = 200 ,
-    posx_personnage = 300,
-    var_operation = {
-      i: 0, 
-      x: 0, 
-      y:0
-    },
-    formule,
-    operateur = ['/','*','+','-'],
-    op_indice = 0 ,
-    posx = 1,
-    detect = false,
-    personnage_width = 90,
-    personnage_heigth = 64, 
-    maincv = document.getElementById("bgmainMenu"),  
-    ctxmain = maincv.getContext('2d'),  
-    menuImgs = { 
-      bg: new Image(),
-      start: new Image(),
-      options: new Image(),
-      exit: new Image(),
-      volume: new Image(),
-      range: new Image(),
-      btn: new Image()
-    },
-    gameOvercv = document.getElementById("gameOver"),
-    ctxGameOver = gameOvercv.getContext('2d'),
-    gameOverImgs = {
-      gameOver: new Image(),
-      restart: new Image()
-    }, 
-    gameOverVar = false, 
-    requestAnimationFrame = function (callback, d) {
-      window.setTimeout(callback, 1000 / d);
-    }, 
-    draw_bg = function () {  
-      imgs.bg.onload = function () { 
-        ctx.drawImage(imgs.bg, posx_bg, 0, 1156, 600);
-        ctx.drawImage(
-          imgs.bg, 
-          posx_bg + imgs.bg.width-2,
-          0,
-          1100,
-          600);     
+      ctx = canvas.getContext("2d"),
+      playerSp = document.getElementById('player'),
+      playerctx = playerSp.getContext('2d'),
+      ui = document.getElementById('ui'),
+      uictx = ui.getContext('2d'),
+      choises = document.getElementById("choises"),
+      choisesctx = choises.getContext('2d'),
+      imgs = { 
+        bg: new Image(),
+        grass: new Image(),
+        plane: new Image()
+      },
+      audio = { 
+        planeAudio: new Audio('audio/avion1.ogg'),
+        successAudio: new Audio('audio/laser1.mp3'),
+        flieldAudio: new Audio('audio/ALERT_Error.ogg')
+      },
+      audioposx_bg = 10,
+      posy_personnage = 200 ,
+      posx_personnage = 300,
+      var_operation = {
+        i: 0, 
+        x: 0, 
+        y:0
+      },
+      formule,
+      operateur = ['/','*','+','-'],
+      op_indice = 0 ,
+      posx = 1,
+      detect = false,
+      personnage_width = 90,
+      personnage_heigth = 64, 
+      maincv = document.getElementById("bgmainMenu"),  
+      ctxmain = maincv.getContext('2d'),  
+      menuImgs = { 
+        bg: new Image(),
+        start: new Image(),
+        options: new Image(),
+        exit: new Image(),
+        volume: new Image(),
+        range: new Image(),
+        btn: new Image()
+      },
+      gameOvercv = document.getElementById("gameOver"),
+      ctxGameOver = gameOvercv.getContext('2d'),
+      gameOverImgs = {
+        gameOver: new Image(),
+        restart: new Image()
+      }, 
+      gameOverVar = false, 
+      requestAnimationFrame = function (callback, d) {
+        window.setTimeout(callback, 1000 / d);
+      }, 
+      draw_bg = function () {  
+        imgs.bg.onload = function () { 
+          ctx.drawImage(imgs.bg, posx_bg, 0, 1156, 600);
+          ctx.drawImage(
+            imgs.bg, 
+            posx_bg + imgs.bg.width-2,
+            0,
+            1100,
+            600);     
 
-        requestAnimationFrame(imgs.bg.onload, 200); 
+          requestAnimationFrame(imgs.bg.onload, 200); 
+          
+          if(!gameOverVar)
+          {
+            posx_bg = (posx_bg-1) % 250;
+          } else {
+            posx_bg =0;
+          }
+        }; 
         
-        if(!gameOverVar)
-        {
-          posx_bg = (posx_bg-1) % 250;
-        } else {
-          posx_bg =0;
-        }
-      }; 
-      
-      requestAnimationFrame(imgs.bg.onload,200);  
-    }, 
-    drawPlane = function() { 
-      var animation = function() {
-        if(!gameOverVar)
-        {
-          audio.planeAudio.play();
-        } else { 
-          audio.planeAudio.pause();
-        }
+        requestAnimationFrame(imgs.bg.onload,200);  
+      }, 
+      drawPlane = function() { 
+        var animation = function() {
+          if(!gameOverVar)
+          {
+            audio.planeAudio.play();
+          } else { 
+            audio.planeAudio.pause();
+          }
 
-        playerctx.clearRect(
-          posx_personnage-5,
-          posy_personnage-5,
-          800,
-          800);
+          playerctx.clearRect(
+            posx_personnage-5,
+            posy_personnage-5,
+            800,
+            800);
 
-        playerctx.drawImage(
-          imgs.plane,
-          posx_personnage,
-          posy_personnage);
+          playerctx.drawImage(
+            imgs.plane,
+            posx_personnage,
+            posy_personnage);
 
-        requestAnimationFrame(animation);  
-      }; 
-     
-      requestAnimationFrame(animation);
-      
-      document.onkeydown = function(evt) {  
-        console.log(evt.keyCode && gameOverVar == false );
+          requestAnimationFrame(animation);  
+        }; 
+       
+        requestAnimationFrame(animation);
         
-        if(evt.keyCode == 40)
-        {
-          if(posy_personnage <imgs.bg.height-200 )
-            posy_personnage = posy_personnage + 4;
-        }
+        document.onkeydown = function(evt) {  
+          console.log(evt.keyCode && gameOverVar == false );
+          
+          if(evt.keyCode == 40)
+          {
+            if(posy_personnage <imgs.bg.height-200 )
+              posy_personnage = posy_personnage + 4;
+          }
 
-        if(evt.keyCode == 38)
-        {
-          if(posy_personnage > 40 )
-            posy_personnage = posy_personnage - 4;
-        }
+          if(evt.keyCode == 38)
+          {
+            if(posy_personnage > 40 )
+              posy_personnage = posy_personnage - 4;
+          }
 
-        if(gameOverVar)
-        {
-           playerctx.clearRect(0,0,1160,600);
-           posy_personnage =100;
-        }
-      };
-    }, 
-    harderi = 0, 
-    harderj = 1, 
-    tab_choises = ["","",""],
-    true_choise,
-    false_choise,
-    indice_true,
-    i = 0,
-    posy_choises = 100,
-    posx_choises = 1000,
-    iReturn = true,
-    Score  = 0,
-    j = 0, 
-    xGameOver = 420,
-    yGameOver = 100,
-    xRestart  = 500,
-    yRestart  = 380, 
-    optionscv = document.getElementById("optionsMenu"),
-    ctxoption = optionscv.getContext('2d'), 
-    xVolume = 400,
-    yVolume = 50,
-    xRange  = 375,
-    yRange  = 200,
-    xBtn    = 400 ,
-    yBtn    = 215;
+          if(gameOverVar)
+          {
+             playerctx.clearRect(0,0,1160,600);
+             posy_personnage =100;
+          }
+        };
+      }, 
+      harderi = 0, 
+      harderj = 1, 
+      tab_choises = ["","",""],
+      true_choise,
+      false_choise,
+      indice_true,
+      i = 0,
+      posy_choises = 100,
+      posx_choises = 1000,
+      iReturn = true,
+      Score  = 0,
+      j = 0, 
+      xGameOver = 420,
+      yGameOver = 100,
+      xRestart  = 500,
+      yRestart  = 380, 
+      optionscv = document.getElementById("optionsMenu"),
+      ctxoption = optionscv.getContext('2d'), 
+      xVolume = 400,
+      yVolume = 50,
+      xRange  = 375,
+      yRange  = 200,
+      xBtn    = 400 ,
+      yBtn    = 215;
     
   //src of imgs 
   imgs.bg.src = 'sprites/bg.png'; 
