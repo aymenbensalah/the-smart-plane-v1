@@ -1,5 +1,6 @@
 (function() {
-  "use strict";
+
+  var posx_bg;
   var canvas = document.getElementById("canvas"),
     ctx = canvas.getContext("2d"),
     playerSp = document.getElementById("player"),
@@ -138,7 +139,7 @@
   gameOverImgs.gameOver.src = "sprites/GAME OVER.PNG";
   gameOverImgs.restart.src = "sprites/RESTRAT.PNG";
 
-  c_operation = function(Score) {
+ var  c_operation = function(Score) {
     if (Score > harderj + 27 && j < 8) {
       harderi++;
       harderj++;
@@ -187,7 +188,7 @@
   };
 
   //score function
-  drawScore = function(score) {
+  var drawScore = function(score) {
     if (score == undefined) score = 0;
 
     uictx.clearRect(890, 540, 400, 450);
@@ -205,14 +206,15 @@
         widthBgChoise = 80,
         heightBgChoise = 80,
         random;
+        var falseChoisesTab = [0,0,0];
 
       if (iReturn) {
         c_operation(Score);
         true_choise = eval(c_operation(Score));
-        false_choise1 = Math.round(Math.random() + 2) * 12;
-        false_choise2 = Math.round(Math.random() + 6) * 12;
-        false_choise3 = Math.round(Math.random() + 10) * 10;
-        falseChoisesTab = [false_choise1, false_choise2, false_choise3];
+        let false_choise1 = Math.round(Math.random() + 2) * 12;
+        let false_choise2 = Math.round(Math.random() + 6) * 12;
+        let false_choise3 = Math.round(Math.random() + 10) * 10;
+        falseChoisesTab = [false_choise1, false_choise2, false_choise];
         random = Math.random();
 
         if (random == 0) {
@@ -304,14 +306,14 @@
     draw_choises();
   };
 
-  mainDraw = function() {
+  var mainDraw = function() {
     drawScore();
     choises();
     draw_bg();
     drawPlane();
   };
 
-  gameOver = function() {
+  var gameOver = function() {
     gameOverVar = true;
     console.log("from gameOver");
     gameOvercv.style.zIndex = "7";
@@ -371,13 +373,13 @@
   menuImgs.range.src = "sprites/range.png";
   menuImgs.btn.src = "sprites/btn.png";
 
-  drawBg = function() {
+  var drawBg = function() {
     menuImgs.bg.onload = function() {
       ctxmain.drawImage(menuImgs.bg, 0, 0, 1200, 600);
     };
   };
 
-  drawOptions = function() {
+  var drawOptions = function() {
     menuImgs.start.onload = function() {
       ctxoption.drawImage(menuImgs.start, 450, 100, 250, 80);
     };
@@ -391,19 +393,19 @@
     };
   };
 
-  volumeInit = function() {
+  var volumeInit = function() {
     menuImgs.range.onload = function() {};
     menuImgs.volume.onload = function() {};
     menuImgs.btn.onload = function() {};
   };
 
-  volumeDraw = function() {
+  var volumeDraw = function() {
     ctxoption.drawImage(menuImgs.range, xRange, yRange, 530, 80);
     ctxoption.drawImage(menuImgs.volume, xVolume, yVolume, 500, 80);
     ctxoption.drawImage(menuImgs.btn, xBtn, yBtn, 10, 50);
   };
 
-  controls = function() {
+  var controls = function() {
     optionscv.addEventListener(
       "click",
       function() {
@@ -464,7 +466,7 @@
     );
   };
 
-  mainMenu = function() {
+  var mainMenu = function() {
     controls();
     drawBg();
     drawOptions();
