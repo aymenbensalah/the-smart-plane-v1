@@ -1,3 +1,3 @@
 # The smart plane
 
-Enjoy Math with SmartPlane
+Enjoy Math game with SmartPlane
